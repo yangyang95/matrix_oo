@@ -1,4 +1,5 @@
 #include "matrix.h"
+#include <stdio.h>
 #include <stdlib.h>
 
 struct naive_priv {
@@ -43,8 +44,20 @@ bool mul(Matrix *dst, const Matrix *l, const Matrix *r)
     return true;
 }
 
+void print(Matrix *thiz)
+{
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            printf("%5g ", PRIV(thiz)->values[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+
 MatrixAlgo NaiveMatrixProvider = {
     .assign = assign,
     .equal = equal,
     .mul = mul,
+    .print = print,
 };

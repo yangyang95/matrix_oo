@@ -18,6 +18,7 @@ typedef struct {
     void (*assign)(Matrix *thiz, Mat4x4);
     bool (*equal)(const Matrix *l, const Matrix *r);
     bool (*mul)(Matrix *dst, const Matrix *l, const Matrix *r);
+    void (*print)(Matrix *thiz);
 } MatrixAlgo;
 
 /* Available matrix providers */

@@ -1,7 +1,7 @@
 #include "matrix.h"
 #include <stdio.h>
 
-MatrixAlgo *matrix_providers[] = {                                                                                                                
+MatrixAlgo *matrix_providers[] = {
     &NaiveMatrixProvider,
 };
 
@@ -38,6 +38,9 @@ int main()
             { 82, 108, 134, 160, },
         },
     });
+
+    printf("Matrix multiplication get :\n\n");
+    algo->print(&dst);
 
     if (algo->equal(&dst, &fixed))
         return 0;
