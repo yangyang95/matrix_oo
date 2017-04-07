@@ -4,8 +4,8 @@
 #include <stdbool.h>
 
 /* predefined shortcut */
-#define DECLARE_MATRIX(col, row) \
-    typedef struct { float values[col][row]; } Mat ## col ## x ## row
+#define DECLARE_MATRIX(row, col) \
+    typedef struct { float values[col][row]; } Mat ## row ## x ## col
 DECLARE_MATRIX(3, 3);
 DECLARE_MATRIX(4, 4);
 
