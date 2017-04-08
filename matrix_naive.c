@@ -21,14 +21,12 @@ static Matrix* create(int row, int col)
     return matrix;
 }
 
-static void assign(Matrix *thiz, int row, int col, float* data)
+static void assign(Matrix *thiz, float* data)
 {
-    assert(thiz->row == row && thiz->col == col
-           && "Input data size doesn't match");
-
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            PRIV(thiz)[i*col + j] = data[i*col + j];
+    /* FIXME: Error handling - when thiz size different to data*/
+    for (int i = 0; i < thiz->row; i++)
+        for (int j = 0; j < thiz->col; j++)
+            PRIV(thiz)[i*thiz->col + j] = data[i*thiz->col + j];
 }
 
 static const float epsilon = 1 / 10000.0;
@@ -36,8 +34,8 @@ static const float epsilon = 1 / 10000.0;
 static bool equal(const Matrix *l, const Matrix *r)
 {
     assert(l->row == r->row && l->col == r->col && "Matrix size is different");
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
+    for (int i = 0; i < l->row; i++)
+        for (int j = 0; j < l->col; j++)
             if (PRIV(l)[i * l->col + j] + epsilon < PRIV(r)[i * r->col + j] ||
                     PRIV(r)[i * r->col + j] + epsilon < PRIV(l)[i * l->col + j])
                 return false;
@@ -49,10 +47,10 @@ static bool mul(Matrix *dst, const Matrix *l, const Matrix *r)
     assert(l->col == r->row && dst->row == l->row && dst->col == r->col
            && "Matrix multiplication fail");
 
-    dst->priv = malloc(4 * 4 * sizeof(float));
-    for (int i = 0; i < 4; i++)
-        for (int j = 0; j < 4; j++)
-            for (int k = 0; k < 4; k++)
+    dst->priv = malloc(dst->row * dst->col * sizeof(float));
+    for (int i = 0; i < dst->row; i++)
+        for (int j = 0; j < dst->col; j++)
+            for (int k = 0; k < l->col; k++)
                 PRIV(dst)[i * dst->col + j] += PRIV(l)[i * l->col + k] *
                                                PRIV(r)[k * r->col + j];
     return true;
@@ -61,8 +59,8 @@ static bool mul(Matrix *dst, const Matrix *l, const Matrix *r)
 static void print(Matrix *thiz)
 {
     int col = thiz->col;
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 4; j++) {
+    for (int i = 0; i < thiz->row; i++) {
+        for (int j = 0; j < thiz->col; j++) {
             printf("%5g ", PRIV(thiz)[i*col + j]);
         }
         printf("\n");

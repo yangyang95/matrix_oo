@@ -16,7 +16,7 @@ typedef struct {
 
 typedef struct {
     Matrix* (*create)(int row, int col);
-    void (*assign)(Matrix *thiz, int row, int col, float* data);
+    void (*assign)(Matrix *thiz, float* data);
     bool (*equal)(const Matrix *l, const Matrix *r);
     bool (*mul)(Matrix *dst, const Matrix *l, const Matrix *r);
     void (*print)(Matrix *thiz);
