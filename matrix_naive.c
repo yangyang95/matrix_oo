@@ -35,6 +35,7 @@ static const float epsilon = 1 / 10000.0;
 
 static bool equal(const Matrix *l, const Matrix *r)
 {
+    assert(l->row == r->row && l->col == r->col && "Matrix size is different");
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             if (PRIV(l)[i * l->col + j] + epsilon < PRIV(r)[i * r->col + j] ||
@@ -45,7 +46,9 @@ static bool equal(const Matrix *l, const Matrix *r)
 
 static bool mul(Matrix *dst, const Matrix *l, const Matrix *r)
 {
-    /* FIXME: error hanlding */
+    assert(l->col == r->row && dst->row == l->row && dst->col == r->col
+           && "Matrix multiplication fail");
+
     dst->priv = malloc(4 * 4 * sizeof(float));
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
