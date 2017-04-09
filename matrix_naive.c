@@ -21,9 +21,11 @@ static Matrix* create(int row, int col)
     return matrix;
 }
 
-static void assign(Matrix *thiz, float* data)
+static void assign(Matrix *thiz, float* data, int data_size)
 {
-    /* FIXME: Error handling - when thiz size different to data*/
+    assert(thiz->row * thiz->col == data_size &&
+           "Data size different from matrix size");
+
     for (int i = 0; i < thiz->row; i++)
         for (int j = 0; j < thiz->col; j++)
             PRIV(thiz)[i*thiz->col + j] = data[i*thiz->col + j];
